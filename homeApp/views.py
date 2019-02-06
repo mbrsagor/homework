@@ -67,5 +67,25 @@ class AddTaskView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-    def create(self):
-        pass
+class AddTaskRetrieveView(APIView):
+    """
+    Here server tasks
+    """
+
+    def get(self, request, id):
+        queryset = get_object_or_404(AddTask, id=id)
+        serializer = AddTaskSerializer(queryset).data
+        return Response(serializer)
+
+    def put(self, request, id):
+        queryset = get_object_or_404(AddTask, id=id)
+        serializer = AddTaskSerializer(queryset, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        queryset = AddTask.objects.all()
+        queryset.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
