@@ -35,7 +35,3 @@ class AddTaskSerializer(ModelSerializer):
 
     def create(self, validated_data):
         return AddTask.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.tasks = validated_data.get('tasks', instance.tasks)
-        return instance

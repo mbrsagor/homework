@@ -69,7 +69,7 @@ class AddTaskView(APIView):
 
 class AddTaskRetrieveView(APIView):
     """
-    Here server tasks
+    Here server tasks 
     """
 
     def get(self, request, id):
@@ -86,6 +86,6 @@ class AddTaskRetrieveView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id):
-        queryset = AddTask.objects.all()
+        queryset = get_object_or_404(AddTask, id=id)
         queryset.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
