@@ -69,7 +69,7 @@ class AddTaskView(APIView):
 
 class AddTaskRetrieveView(APIView):
     """
-    Here server tasks 
+    Here, server add new task `Details` `Update` and `Delete` function prepare
     """
 
     def get(self, request, id):
@@ -77,12 +77,12 @@ class AddTaskRetrieveView(APIView):
         serializer = AddTaskSerializer(queryset).data
         return Response(serializer)
 
-    def put(self, request, id):
+    def put(self, request, id, format=None):
         queryset = get_object_or_404(AddTask, id=id)
-        serializer = AddTaskSerializer(queryset, data=request.data)
+        serializer = AddTaskSerializer(queryset, data=request.data, context={"request": request})
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id):
