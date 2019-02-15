@@ -27,7 +27,7 @@ class TaskPostView(APIView):
 
 class TaskDetailsViews(APIView):
     """
-    This method used to task retrieve, update, and destroy
+    This method used to task `retrieve`  `update` and `destroy`
     """
 
     def get(self, request, id):
@@ -69,7 +69,7 @@ class AddTaskView(APIView):
 
 class AddTaskRetrieveView(APIView):
     """
-    Here, server add new task `Details` `Update` and `Delete` function prepare
+    Here, server add new task `Details` `Update` and `Delete` function using prepare data
     """
 
     def get(self, request, id):
@@ -77,7 +77,7 @@ class AddTaskRetrieveView(APIView):
         serializer = AddTaskSerializer(queryset).data
         return Response(serializer)
 
-    def put(self, request, id, format=None):
+    def put(self, request, id):
         queryset = get_object_or_404(AddTask, id=id)
         serializer = AddTaskSerializer(queryset, data=request.data, context={"request": request})
         if serializer.is_valid():
