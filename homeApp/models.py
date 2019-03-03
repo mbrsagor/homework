@@ -16,3 +16,11 @@ class AddTask(models.Model):
 
     def __str__(self):
         return self.category
+
+
+class Code(models.Model):
+    code = models.IntegerField(default=0)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.code

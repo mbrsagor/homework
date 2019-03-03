@@ -2,8 +2,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
-from .models import Task, AddTask
-from .serializers import TaskSerializer, AddTaskSerializer
+from .models import Task, AddTask, Code
+from .serializers import TaskSerializer, AddTaskSerializer, CodeSerializer
 from django.shortcuts import get_object_or_404
 
 
@@ -87,5 +87,41 @@ class AddTaskRetrieveView(APIView):
 
     def delete(self, request, id):
         queryset = get_object_or_404(AddTask, id=id)
+        queryset.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class AddCodeView(APIView):
+
+    def get(self, request):
+        queryset = Code.objects.all()
+        serializer = CodeSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = CodeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_200_OK)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+
+class UpdateCodeView(APIView):
+
+    def get(self, request, id):
+        queryset = get_object_or_404(Code, id=id)
+        serializer = CodeSerializer(queryset).data
+        return Response(serializer)
+
+    def put(self, request, id):
+        queryset = get_object_or_404(Code, id=id)
+        serializer = CodeSerializer(queryset, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_200_OK)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        queryset = get_object_or_404(Code, id=id)
         queryset.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
