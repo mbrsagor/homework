@@ -18,7 +18,15 @@ app.controller('codeController', function ($scope, $http) {
 
     $scope.addCodeBtn = function () {
         $scope.addTaskBtn = true;
+        $scope.add_modal_title = true;
         $scope.updateTaskBtn = false;
+        $scope.update_modal_title = false;
+
+        // model close
+        var modal_popup = angular.element('#modalBox');
+        modal_popup.modal('hide');
+        $scope.edit.code = "";
+
     };
 
     $scope.currentItem = function (code) {
@@ -28,18 +36,35 @@ app.controller('codeController', function ($scope, $http) {
 
         $scope.addTaskBtn = false;
         $scope.updateTaskBtn = true;
+        $scope.update_modal_title = true;
+        $scope.add_modal_title = false;
     };
 
+    // add new code
     $scope.addCode = function () {
         $http({
             method: "post",
             url: "api/code/",
-            data: {code: $scope.code}
+            data: {code: $scope.code},
+            headers: {'Content-Type': 'application/json'}
         }).then(function success(response) {
             $scope.codeList.push(response.data);
             console.log("data insert successfully");
             console.log(response.data);
         });
+    };
+
+    // update code
+    $scope.updateCode = function (id) {
+        $http({
+            method: "put",
+            url: "api/code/" + id + "/",
+            data: {code: $scope.edit.code},
+            headers: {'Content-Type': 'application/json'}
+        }).then(function success(response) {
+            console.log("code updated successfully");
+            console.log(response);
+        })
     };
 
 

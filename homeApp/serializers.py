@@ -1,5 +1,5 @@
-from rest_framework.serializers import ModelSerializer
-from .models import Task, AddTask, Code
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from .models import Task, AddTask
 
 
 class TaskSerializer(ModelSerializer):
@@ -23,36 +23,19 @@ class TaskSerializer(ModelSerializer):
 
 
 class AddTaskSerializer(ModelSerializer):
-    tasks = TaskSerializer(read_only=True, many=True)
+    task = TaskSerializer(read_only=True, many=True)
+    user = SerializerMethodField(read_only=True)
 
     class Meta:
         model = AddTask
         fields = (
             'id',
-            'category',
-            'tasks'
+            'user',
+            'task'
         )
-    #
-    # def create(self, validated_data):
-    #     tasks_data = validated_data.pop('tasks')
-    #     _tasks = AddTask.objects.create(**validated_data)
-    #     for _task in tasks_data:
-    #         Task.objects.create(_tasks=_tasks, **_task)
-    #     return _tasks
 
-
-class CodeSerializer(ModelSerializer):
-    class Meta:
-        model = Code
-        fields = (
-            'id',
-            'code',
-            'created_date'
-        )
+    def get_user(self, obj):
+        return str(obj.user)
 
     def create(self, validated_data):
-        return Code.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.code = validated_data.get('code', instance.code)
-        return instance
+        return AddTask.objects.create(**validated_data)
