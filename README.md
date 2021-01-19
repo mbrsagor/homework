@@ -17,3 +17,8 @@ source venv/bin/activate
 ./manage.py createsuperuser
 ./manage.py runserver
 ```
+
+###### How to access/pass token in API test software like postman.
+- 1st select header tab
+- key => Authorization
+- value => `Bearer` your-token

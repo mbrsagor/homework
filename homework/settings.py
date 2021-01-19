@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 
     'contacts',
     'rest_framework',
-    # 'rest_framework.authtoken',
+    'rest_framework.authtoken',
     'corsheaders',
 ]
 
