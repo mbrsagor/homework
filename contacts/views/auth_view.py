@@ -1,7 +1,6 @@
-from rest_framework import generics, permissions, mixins
+from rest_framework import generics
 from rest_framework.response import Response
 from contacts.serializers.auth_serializer import RegisterSerializer, UserSerializer
-from django.contrib.auth.models import User
 
 
 # Register API
