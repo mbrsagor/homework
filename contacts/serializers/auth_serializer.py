@@ -40,6 +40,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             return e
 
     def validate(self, data):
+        # if data['email'] is None:
+        #     return serializers.ValidationError("Email is must be required.")
         if not data.get('password') or not data.get('password2'):
             raise serializers.ValidationError("Please enter a password and "
                                               "confirm it.")
